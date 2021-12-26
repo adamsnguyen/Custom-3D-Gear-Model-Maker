@@ -1,0 +1,13 @@
+**/.__pycache__/
+**/.vscode/
+__pycache__/
+.vscode/
+app/Backend_FreeCAD/.idea
+frames/*
+.vscode
+app/static/gear_output_gifs/*.gif
+app/Backend_FreeCAD/Part_files/*.stl
+app/Backend_FreeCAD/Part_files/*.gif
+app.db
+*.db
+migrations

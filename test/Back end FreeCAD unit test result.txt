@@ -1,0 +1,110 @@
+Microsoft Windows [Version 10.0.19042.1348]
+(c) Microsoft Corporation. All rights reserved.
+
+G:\My Drive\UBC\MECH 540A\Project\nguyen_goel_project\test>python -m unittest Backend_testing.py
+Found FreeCadCmd.exe at C:\Program Files\FreeCAD 0.19\bin\FreeCADCmd.exe
+Found FreeCadCmd.exe at C:\Program Files\FreeCAD 0.19\bin\FreeCADCmd.exe
+FreeCAD 0.19, Libs: 0.19R24291 (Git)
+(c) Juergen Riegel, Werner Mayer, Yorik van Havre and others 2001-2021
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+FreeCAD wouldn't be possible without FreeCAD community.
+  #####                 ####  ###   ####
+  #                    #      # #   #   #
+  #     ##  #### ####  #     #   #  #   #
+  ####  # # #  # #  #  #     #####  #   #
+  #     #   #### ####  #    #     # #   #
+  #     #   #    #     #    #     # #   #  ##  ##  ##
+  #     #   #### ####   ### #     # ####   ##  ##  ##
+
+Importing project files......
+Postprocessing......
+Traceback (most recent call last):
+  File "C:\Users\adam\AppData\Roaming\FreeCAD\Mod\fcgear\freecad\gears\features.py", line 98, in execute
+    gear_shape = self.generate_gear_shape(fp)
+  File "C:\Users\adam\AppData\Roaming\FreeCAD\Mod\fcgear\freecad\gears\features.py", line 626, in generate_gear_shape
+    wires.append(make_bspline_wire(points))
+  File "C:\Users\adam\AppData\Roaming\FreeCAD\Mod\fcgear\freecad\gears\features.py", line 1259, in make_bspline_wire
+    out.interpolate(list(map(fcvec, i)))
+<class 'Part.OCCError'>: Standard_ConstructionError
+Traceback (most recent call last):
+  File "C:\Users\adam\AppData\Roaming\FreeCAD\Mod\fcgear\freecad\gears\features.py", line 98, in execute
+    gear_shape = self.generate_gear_shape(fp)
+  File "C:\Users\adam\AppData\Roaming\FreeCAD\Mod\fcgear\freecad\gears\features.py", line 626, in generate_gear_shape
+    wires.append(make_bspline_wire(points))
+  File "C:\Users\adam\AppData\Roaming\FreeCAD\Mod\fcgear\freecad\gears\features.py", line 1259, in make_bspline_wire
+    out.interpolate(list(map(fcvec, i)))
+<class 'Part.OCCError'>: Standard_ConstructionError
+saving......
+.FreeCAD 0.19, Libs: 0.19R24291 (Git)
+(c) Juergen Riegel, Werner Mayer, Yorik van Havre and others 2001-2021
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+FreeCAD wouldn't be possible without FreeCAD community.
+  #####                 ####  ###   ####
+  #                    #      # #   #   #
+  #     ##  #### ####  #     #   #  #   #
+  ####  # # #  # #  #  #     #####  #   #
+  #     #   #### ####  #    #     # #   #
+  #     #   #    #     #    #     # #   #  ##  ##  ##
+  #     #   #### ####   ### #     # ####   ##  ##  ##
+
+Importing project files......
+Postprocessing......
+Part::Cut / Cut: Links go out of the allowed scope
+Part::Cut / Cut: Links go out of the allowed scope
+saving......
+.FreeCAD 0.19, Libs: 0.19R24291 (Git)
+(c) Juergen Riegel, Werner Mayer, Yorik van Havre and others 2001-2021
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+FreeCAD wouldn't be possible without FreeCAD community.
+  #####                 ####  ###   ####
+  #                    #      # #   #   #
+  #     ##  #### ####  #     #   #  #   #
+  ####  # # #  # #  #  #     #####  #   #
+  #     #   #### ####  #    #     # #   #
+  #     #   #    #     #    #     # #   #  ##  ##  ##
+  #     #   #### ####   ### #     # ####   ##  ##  ##
+
+Importing project files......
+Postprocessing......
+Part::Cut / Cut: Links go out of the allowed scope
+Part::Cut / Cut: Links go out of the allowed scope
+saving......
+.FreeCAD 0.19, Libs: 0.19R24291 (Git)
+(c) Juergen Riegel, Werner Mayer, Yorik van Havre and others 2001-2021
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+FreeCAD wouldn't be possible without FreeCAD community.
+  #####                 ####  ###   ####
+  #                    #      # #   #   #
+  #     ##  #### ####  #     #   #  #   #
+  ####  # # #  # #  #  #     #####  #   #
+  #     #   #### ####  #    #     # #   #
+  #     #   #    #     #    #     # #   #  ##  ##  ##
+  #     #   #### ####   ### #     # ####   ##  ##  ##
+
+Importing project files......
+Postprocessing......
+Part::Cut / Cut: Links go out of the allowed scope
+saving......
+.FreeCAD 0.19, Libs: 0.19R24291 (Git)
+(c) Juergen Riegel, Werner Mayer, Yorik van Havre and others 2001-2021
+FreeCAD is free and open-source software licensed under the terms of LGPL2+ license.
+FreeCAD wouldn't be possible without FreeCAD community.
+  #####                 ####  ###   ####
+  #                    #      # #   #   #
+  #     ##  #### ####  #     #   #  #   #
+  ####  # # #  # #  #  #     #####  #   #
+  #     #   #### ####  #    #     # #   #
+  #     #   #    #     #    #     # #   #  ##  ##  ##
+  #     #   #### ####   ### #     # ####   ##  ##  ##
+
+Importing project files......
+Postprocessing......
+Part::Cut / Cut: Links go out of the allowed scope
+saving......
+.
+----------------------------------------------------------------------
+Ran 5 tests in 7.300s
+
+OK
+
+G:\My Drive\UBC\MECH 540A\Project\nguyen_goel_project\test>

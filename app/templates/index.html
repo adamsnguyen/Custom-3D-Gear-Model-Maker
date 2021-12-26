@@ -1,0 +1,206 @@
+{# =============================================================================
+   # File Name     : index.html
+   # Description   : This is the main page where gears are generated
+    ============================================================================= #}
+
+{% extends "base.html" %}
+{% block content %}
+<div class="d-flex p-2 customFlexParent flex-row">
+   <div class="p-2 customFlexChild1 children">
+      <!--Making a drop down list-->
+      {# {% if current_user.is_authenticated %}
+      <h1 id="greetings">User: {{ current_user.username.capitalize() }}</h1>
+      {% endif %}#}
+      <h1> 3D Gear Model Generator </h1>
+      <form action="/index/base" method="post" novalidate id = "base_form">
+         <select class="minimal" id="gear-type">  
+            <option value="none">Select Gear Type</option>
+            <option value="spur">Spur Gear</option>
+            <option value="helix">Helix Gear</option>
+            <option value="double_helix">Double Helix Gear</option>
+            <option value="bevel">Bevel Gear</option>
+            <option value="worm">Worm Gear</option>
+         </select>
+      </form>
+      <!--Generating Forms-->
+      <div class="p-2 gear-form children", id="spur">
+         <h1>{{ gear_name }}</h1>
+         <form method="POST" novalidate id="gear_form" >
+            {{gear_form.hidden_tag()}}
+            {% for key, field in gear_form._fields.items() %}
+               {% if field.id.lower() in ["csrf_token", "geartype"]%}
+               {{continue}}
+               {% elif field.id.lower() == "generate" %}
+                  {{ field(size=20) }}<br>
+               {% elif field.id.lower() == "hole_dia" and request.path.lower().__contains__('rack') %}
+               {{continue}}
+               {% else %}   
+                  {{ field.label }}<br>
+                  {{ field(size=20) }}<br>
+                  {% for error in field.errors %}
+                  <span style="color: red;">[{{ error }}]</span>
+                  {% endfor %}
+               {% endif %}
+            {% endfor %}
+         </form>
+      </div>
+      <!--Form Download-->
+      {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <div class="p-2 children" id="loading">
+         <p id="loading-text">Loading</p>
+         <p id="gear-id" style="display:none">{{ gear_id }}</p>   
+         <a href="{{ url_for('download', ID=gear_id) }}" id="download" style="display:none">Download</a>
+      </div>
+      {% endif %}
+      {% endwith %}
+      {% if current_user.is_anonymous %}
+      <div class="p-2 children left-box" id="loading-text">
+         <a  class="nav-link" href="{{ url_for('register') }}">Create an account to save and view your gear design history</a> 
+      </div>
+      {% endif %}
+
+   </div>
+   <div>
+      <!--Displaying Gear gif-->
+      <div class="p-2 customFlexChild2 children flex-row">
+         <div class="p-2 rotation-wrapper">
+            <img class="output-image" src="\static\media\output.gif" alt="gear" title="gear" id="gear-image"/>
+         </div>
+         <br>
+      </div>
+      <div class="p-2 customFlexChild5 children flex-row">
+         <div class="p-2 customFlexChild5 children flex-row side-child">
+            <h1 class="loading-header" style="display: none;">Loading</h1>
+            <img class="side-pic" src="\static\media\output2.gif" alt="gear" title="gear" id="side-pic1"/>
+         </div>
+         <div class="p-2 customFlexChild5 children flex-row side-child">
+            <h1 class="loading-header" style="display: none;">Loading</h1>
+            <img class="side-pic" src="\static\media\output3.gif" alt="gear" title="gear" id="side-pic2"/>
+         </div>
+      </div>
+   </div>
+</div>
+       <!--Displaying table with user generated gear-->
+      {#  <div class="p-2 customFlexChild3 children flex-row" id="gear-database">
+         
+         <div class="p-2 children" style="border: none;">
+            <h1 id="history-header">Gear Design History</h1>
+            {{ all_gears|safe }}
+         </div>
+      </div>  #}
+
+      {% if current_user.is_authenticated %}
+
+      <div class="d-flex p-2 customFlexParent2 flex-row">
+         <div class="p-2 customFlexChild6 children" id="home-database-outer">
+            <h1 id="greetings">
+               {{ current_user.username.capitalize() }}'s Gear Design History
+             </h1>
+         <div class="p-2 customFlexChild7 children" id="home-database">    
+           <table class="gear_table">
+             <thead>
+               <tr>
+                 <th>Gear Type</th>
+                 <th>ID</th>
+                 <th>Height (mm)</th>
+                 <th>Number of Teeth</th>
+                 <th>Pitch Diameter (mm)</th>
+                 <th>Hole Diameter (mm)</th>
+                 <th>Pressure Angle (degrees)</th>
+                 <th>Teeth Angle (degrees)</th>
+                 <th>Clearance (mm)</th>
+                 <th>Time Created</th>
+               </tr>
+             </thead>
+             <tbody>
+               {% for gear in gears %}
+               <tr>
+                 <td>{{ gear.gear_type }}</td>
+                 <td>{{ gear.id }}</td>
+                 <td>{{ gear.height }}</td>
+                 <td>{{ gear.num_teeth }}</td>
+                 <td>{{ gear.pitch_dia }}</td>
+                 <td>{{ gear.hole_dia }}</td>
+                 <td>{{ gear.pressure_angle }}</td>
+                 <td>{{ gear.angle_teeth }}</td>
+                 <td>{{ gear.clearance }}</td>
+                 <td>{{ gear.time_created }}</td>
+               </tr>
+               {% endfor %}
+             </tbody>
+           </table>
+         </div>
+      </div>
+       </div> 
+       {% endif %}
+</div>
+{% endblock %}
+{% block scripts %}
+{{super()}}
+<script>
+ 
+   // {# Socket.io Communication #}  
+   $(document).ready(function(){
+      $('.loading-header').hide();
+      var socket = io();
+      if( $('#loading').length ){        // use this if you are using id to check{
+            socket.emit('success');
+         }
+
+      // Loading display
+      socket.on('loading', function(msg) {
+               $('.loading-header').show();
+               $('.side-pic').hide();
+               $('.output-image').attr('src','\\static\\media\\loading.png');
+               $('.output-image').attr('id','loading-image');
+               $('input[type=submit]').attr("disabled", true);
+               var gearId = $('#gear-id').text();
+               socket.emit('generate', {data: gearId});     
+            });
+
+      // Gif is displayed
+      socket.on('done', function(msg) {
+               $('.output-image').hide();
+               var gearId = $('#gear-id').text();
+               var gearId2 = $('#gear-id').text()+"_side_1";
+               var gearId3 = $('#gear-id').text()+"_side_2";
+               var gif = gearId + ".gif";
+               var gif2 = gearId2 + ".gif";
+               var gif3 = gearId3 + ".gif";
+               $('#loading-text').hide();
+               $('#download').show();
+               $('input[type=submit]').attr("disabled", false);
+               console.log("done");
+               $('.output-image').attr('src','\\static\\gear_output_gifs\\' + gif);
+               $('#side-pic1').attr('src','\\static\\gear_output_gifs\\' + gif2);
+               $('#side-pic2').attr('src','\\static\\gear_output_gifs\\' + gif3);
+               $('.output-image').attr('id','gear-image'); 
+               $("#gear_database").show();
+               $('.output-image').show();
+               $('.loading-header').hide();
+               $('.side-pic').show();
+            });
+   });
+
+   // Hiding the table until generate button is pressed
+   $(document).ready(function() {
+
+            // On Gear Method Selection URL is generated
+         $("#gear-type").on("change", function(){
+            var getValue = $(this).val();
+            var url = "/index/".concat(getValue, "_", "form");
+            window.location = url
+            document.getElementById("gear_form").action = url;
+            $(".gear_form").show();
+         });
+
+         // Using Generated URL
+         $("#gear_form").on("submit", function(){
+            $(this).action = window.URL
+         })
+    })
+
+   
+</script>
+{% endblock %}

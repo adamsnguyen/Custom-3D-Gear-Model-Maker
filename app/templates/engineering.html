@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<!--Title and brief expalantion of page-->
+<body >
+    <h1 style="font-size:40px;">Find a Gear that Fits Your Custom Gear</h1>
+    <p style="font-size: 20px;">
+        Using the parameters of gear you just created, you can get get a custom gear parameters that will work with it
+        with minimal backlash.<br>
+        Just enter the numbers as requested and you can find the numbers. <br>
+        Note: The module stays constant and the pressure angle is set to 20 degrees.<br><br>
+    </p>
+</body>
+<div class="p-2" style="text-align:center">
+    <div class="container center_div module_form">
+        <!--Taking input from users-->
+        <form action ="#" id = "engineering_form" style="font-size: 20px;">
+            Module: <br> <input id="module" type="text" required="" style="color: black;"><br>
+            Angle of Teeth (degrees): <input id="angle_teeth" type = "text" required="" style="color: black;"><br>
+            Gear Ratio: <input id="gear_ratio" type = "text" required="" style="color: black;"> <br>
+            Number of Teeth: <input id="num_teeth" type = "text" required="" style="color: black;"><br>
+            Pitch Diameter (mm): <input id="pitch_dia" type = "text" required="" style="color: black;"><br>
+            <input type ="submit" value="Calculate" style="color: black; border:1px solid ; font-size: 2.25rem; padding: 0.5rem; margin: 0.5rem 0; border-radius: 8px; outline:none; cursor: pointer;">
+        </form>
+    </div>
+    <div id="mesh_gear">
+        <!--Table generation for meshed gear-->
+        <table style="margin-left:auto;margin-right:auto; padding:10px;">
+            <tbody>
+                <th>
+                    Meshed Gear
+                </th>
+                <tr>
+                    <td style="padding:10px;">Number of Teeth</td>
+                    <td id = "num_teeth1"></td>
+                </tr>
+                <tr>
+                    <td style="padding:10px;">Pitch Diameter</td>
+                    <td id = "pitch_dia1"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    //  Hiding Table until calculate button is pressed
+    $(document).ready(function() {
+        $("#mesh_gear").hide();
+    })
+
+    //  Parsing input values, performing calculation for meshed gear
+    //  and returing them back
+    $("#engineering_form").on("submit", function(){
+        var module = parseInt($("#module").val());
+        var angle_teeth = parseInt($("#angle_teeth").val());
+        var gear_ratio = parseInt($("#gear_ratio").val());
+        var num_teeth = parseInt($("#num_teeth").val());
+        var pitch_dia = parseFloat($("#pitch_dia").val());
+        
+        var num_teeth1 = num_teeth * gear_ratio;
+        var pitch_dia1 = module * num_teeth1;
+
+        //  Checking if num_teeth is odd
+        if (num_teeth % 2 == 1){
+            if (num_teeth1 % 2 == 1)
+               num_teeth1 += 1
+        }
+        var angle_teeth1 = angle_teeth;
+        document.getElementById("num_teeth1").innerHTML = num_teeth1;
+        document.getElementById("pitch_dia1").innerHTML = pitch_dia1;
+        $("#mesh_gear").show();
+    })
+</script>
+
+{% endblock %}
+{% block scripts %}
+{{super()}}
+{% endblock %}

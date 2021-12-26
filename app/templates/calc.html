@@ -1,0 +1,162 @@
+{% extends "base.html" %} {% block content %}
+<div class="d-flex p-2 customFlexParent2 flex-row">
+  <div class="p-2 customFlexChild8 children">
+    <h1>Gear Type Selection</h1>
+    <!--Generating Forms-->
+    <div class="p-2 gear-form children" , id="spur">
+      <form action="/calc/base" method="post" novalidate id="base_form">
+        <select class="minimal" id="gear-type">
+          <option value="none">Select</option>
+          <option value="spur">Spur Gear</option>
+          <option value="helix">Helix Gear</option>
+          <option value="double_helix">Double Helix Gear</option>
+          <option value="worm">Worm Gear</option>
+        </select>
+      </form>
+      <h1>{{ gear_name }}</h1>
+      <form method="POST" novalidate id="gear_form">
+        {{gear_form.hidden_tag()}} {% for key, field in
+        gear_form._fields.items() %} {% if field.id.lower() in ["csrf_token",
+        "geartype"]%} {{continue}} {% elif field.id.lower() == "generate" %} {{
+        field(size=20) }}<br />
+        {% elif field.id.lower() == "hole_dia" and
+        request.path.lower().__contains__('rack') %} {{continue}} {% else %} {{
+        field.label }}<br />
+        {{ field(size=20) }}<br />
+        {% for error in field.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %} {% endif %} {% endfor %}
+      </form>
+    </div>
+  </div>
+
+  <div class="p-2 customFlexChild8 children">
+    <h1>Gear Calculations</h1>
+    {% if (gear_name == "Spur Gear" or gear_name == "Helix Gear" or gear_name ==
+    "Double Helix Gear") and my_gear%}
+    <h2>Primary Gear</h2>
+    <table id="calc-table" class="table table-striped">
+      <tr>
+        <th>Parameter</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Module (mm)</td>
+        <td>{{my_gear.get_module()}}</td>
+      </tr>
+      <tr>
+        <td>Addendum (mm)</td>
+        <td>{{my_gear.get_addendum()}}</td>
+      </tr>
+      <tr>
+        <td>Dedendum (mm)</td>
+        <td>{{my_gear.get_dedendum()}}</td>
+      </tr>
+      <tr>
+        <td>Tooth Depth (mm)</td>
+        <td>{{my_gear.get_tooth_depth()}}</td>
+      </tr>
+      <tr>
+        <td>Tip Diameter (mm)</td>
+        <td>{{my_gear.get_tip_diameter()}}</td>
+      </tr>
+      <tr>
+        <td>Tip Clearance (mm)</td>
+        <td>{{my_gear.get_tip_clearance()}}</td>
+      </tr>
+      <tr>
+        <td>Root Diameter (mm)</td>
+        <td>{{my_gear.get_root_diameter()}}</td>
+      </tr>
+      <tr>
+        <td>Centre Distance (mm)</td>
+        <td>{{my_gear.get_centre_distance(other_gear)}}</td>
+      </tr>
+    </table>
+
+    <h2>Mating Gear</h2>
+    <table id="calc-table" class="table table-striped">
+      <tr>
+        <th>Parameter</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Module (mm)</td>
+        <td>{{other_gear.get_module()}}</td>
+      </tr>
+      <tr>
+        <td>Teeth Number</td>
+        <td>{{other_gear.teeth_number}}</td>
+      </tr>
+      <tr>
+        <td>Addendum (mm)</td>
+        <td>{{other_gear.get_addendum()}}</td>
+      </tr>
+      <tr>
+        <td>Dedendum (mm)</td>
+        <td>{{other_gear.get_dedendum()}}</td>
+      </tr>
+      <tr>
+        <td>Tooth Depth (mm)</td>
+        <td>{{other_gear.get_tooth_depth()}}</td>
+      </tr>
+      <tr>
+        <td>Tip Diameter (mm)</td>
+        <td>{{other_gear.get_tip_diameter()}}</td>
+      </tr>
+      <tr>
+        <td>Tip Clearance (mm)</td>
+        <td>{{other_gear.get_tip_clearance()}}</td>
+      </tr>
+      <tr>
+        <td>Root Diameter (mm)</td>
+        <td>{{other_gear.get_root_diameter()}}</td>
+      </tr>
+      <tr>
+        <td>Centre Distance (mm)</td>
+        <td>{{other_gear.get_centre_distance(my_gear)}}</td>
+      </tr>
+    </table>
+    {% endif %} 
+    
+    {% if gear_name == "Worm Gear" and my_gear%}
+    <table id="calc-table" class="table table-striped">
+      <tr>
+        <th>Parameter</th>
+        <th>Value</th>
+      </tr>
+      <tr>
+        <td>Lead Angle (degrees)</td>
+        <td>{{my_gear.get_lead_angle()}}</td>
+      </tr>
+      <tr>
+        <td>Axial Pitch (degrees)</td>
+        <td>{{my_gear.get_axial_pitch()}}</td>
+      </tr>
+    </table>
+    {% endif %}
+  </div>
+
+  {% endblock %}
+</div>
+
+{% block scripts %} {{super()}}
+<script>
+  // Hiding the table until generate button is pressed
+  $(document).ready(function () {
+    // On Gear Method Selection URL is generated
+    $("#gear-type").on("change", function () {
+      var getValue = $(this).val();
+      var url = "/calculate/".concat(getValue, "_", "form");
+      window.location = url;
+      document.getElementById("gear_form").action = url;
+      $(".gear_form").show();
+    });
+
+    // Using Generated URL
+    $("#gear_form").on("submit", function () {
+      $(this).action = window.URL;
+    });
+  });
+</script>
+{% endblock %}

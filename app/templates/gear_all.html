@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+{% extends "base.html" %} {% block content %}
+<div class="d-flex p-2 customFlexParent2 flex-row">
+  <div class="p-2 customFlexChild6 children">
+    {% if current_user.is_authenticated %}
+    <h1 id="greetings">
+      {{ current_user.username.capitalize() }}'s Gear Design History
+    </h1>
+    {% endif %}
+    <table class="gear_table">
+      <thead>
+        <tr>
+          <th>Gear Type</th>
+          <th>ID</th>
+
+          <th>Height (mm)</th>
+          <th>Number of Teeth</th>
+          <th>Pitch Diameter (mm)</th>
+          <th>Hole Diameter (mm)</th>
+          <th>Pressure Angle (degrees)</th>
+          <th>Teeth Angle (degrees)</th>
+          <th>Clearance (mm)</th>
+          <th>Time Created</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for gear in gears %}
+        <tr>
+          <td>{{ gear.gear_type }}</td>
+          <td>{{ gear.id }}</td>
+          <td>{{ gear.height }}</td>
+          <td>{{ gear.num_teeth }}</td>
+          <td>{{ gear.pitch_dia }}</td>
+          <td>{{ gear.hole_dia }}</td>
+          <td>{{ gear.pressure_angle }}</td>
+          <td>{{ gear.angle_teeth }}</td>
+          <td>{{ gear.clearance }}</td>
+          <td>{{ gear.time_created }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

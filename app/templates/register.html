@@ -1,0 +1,45 @@
+{# =============================================================================
+  # File Name     : login.html
+  # Description   : This is the registration page
+   ============================================================================= #}
+
+{% extends "base.html" %} {% block content %}
+<div class="d-flex p-2 customFlexParent2 flex-row">
+
+  <div class="p-2 customFlexChild4 children">
+    <h1>Register</h1>
+    <form action="" method="post">
+      {{ register_form.hidden_tag() }}
+      <p>
+        {{ register_form.username.label }}<br />
+        {{ register_form.username(size=32) }}<br />
+        {% for error in register_form.username.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ register_form.email.label }}<br />
+        {{ register_form.email(size=64) }}<br />
+        {% for error in register_form.email.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ register_form.password.label }}<br />
+        {{ register_form.password(size=32) }}<br />
+        {% for error in register_form.password.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>
+        {{ register_form.password2.label }}<br />
+        {{ register_form.password2(size=32) }}<br />
+        {% for error in register_form.password2.errors %}
+        <span style="color: red">[{{ error }}]</span>
+        {% endfor %}
+      </p>
+      <p>{{ register_form.submit() }}</p>
+    </form>
+  </div>
+</div>
+{% endblock %}

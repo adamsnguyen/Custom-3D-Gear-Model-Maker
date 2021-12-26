@@ -1,0 +1,11 @@
+Microsoft Windows [Version 10.0.19042.1348]
+(c) Microsoft Corporation. All rights reserved.
+
+G:\My Drive\UBC\MECH 540A\Project\nguyen_goel_project\test>python -m unittest test_gear_unit_test.py
+.........
+----------------------------------------------------------------------
+Ran 9 tests in 0.001s
+
+OK
+
+G:\My Drive\UBC\MECH 540A\Project\nguyen_goel_project\test>
